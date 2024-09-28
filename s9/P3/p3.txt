@@ -1,0 +1,16 @@
+#define LIGHT_SENSOR_PIN  4  // ESP32 pin GIOP4 (ADC10) connected to light sensor
+#define RELAY_PIN         27 // ESP32 pin GIOP27 connected to Relay
+#define ANALOG_THRESHOLD  500
+
+void setup() {
+  pinMode(RELAY_PIN, OUTPUT); // set ESP32 pin to output mode
+}
+
+void loop() {
+  int analogValue = analogRead(LIGHT_SENSOR_PIN); // read the value on analog pin
+
+  if (analogValue < ANALOG_THRESHOLD)
+    digitalWrite(RELAY_PIN, HIGH); // turn on Relay
+  else
+    digitalWrite(RELAY_PIN, LOW);  // turn off Relay
+}
