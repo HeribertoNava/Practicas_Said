@@ -1,0 +1,15 @@
+#define RELAY_PIN  27  // ESP32 pin GIOP27, which connects to the IN pin of relay
+
+// the code in setup function runs only one time when ESP32 starts
+void setup() {
+  // initialize digital pin A5 as an output.
+  pinMode(RELAY_PIN, OUTPUT);
+}
+
+// the code in loop function is executed repeatedly infinitely
+void loop() {
+  digitalWrite(RELAY_PIN, HIGH); // turn on fan 10 seconds
+  delay(10000);
+  digitalWrite(RELAY_PIN, LOW);  // turn off fan 10 seconds
+  delay(10000);
+}
