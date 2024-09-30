@@ -1,0 +1,30 @@
+#define DOOR_SENSOR_PIN  23  // ESP32 pin GIOP23 connected to the OUTPUT pin of door sensor
+#define LED_PIN          17  // ESP32 pin GIOP17 connected to LED's pin
+
+// The below are variables, which can be changed
+int ledState = LOW;   // the current state of LED
+int lastDoorState;    // the previous state of door sensor
+int currentDoorState; // the current state of door sensor
+
+void setup() {
+  Serial.begin(9600);                     // initialize serial
+  pinMode(DOOR_SENSOR_PIN, INPUT_PULLUP); // set ESP32 pin to input pull-up mode
+  pinMode(LED_PIN, OUTPUT);               // set ESP32 pin to output mode
+
+  currentDoorState = digitalRead(DOOR_SENSOR_PIN);
+}
+
+void loop() {
+  lastDoorState    = currentDoorState;             // save the last state
+  currentDoorState = digitalRead(DOOR_SENSOR_PIN); // read new state
+
+  if (lastDoorState == HIGH && currentDoorState == LOW) { // state change: HIGH -> LOW
+    Serial.println("The door-closing event is detected, toggles the state of LED");
+
+    // toggle state of LED
+    ledState = !ledState;
+
+    // control LED arccoding to the toggled state
+    digitalWrite(LED_PIN, ledState);
+  }
+}

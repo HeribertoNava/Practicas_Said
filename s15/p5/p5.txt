@@ -1,0 +1,30 @@
+#define DOOR_SENSOR_PIN  21 // ESP32 pin GIOP21 connected to door sensor's pin
+#define RELAY_PIN        27 // ESP32 pin GIOP27 connects to the IN pin of relay
+
+// The below are variables, which can be changed
+int relayState = LOW; // the current state of relay
+int lastDoorState;    // the previous state of door sensor
+int currentDoorState; // the current state of door sensor
+
+void setup() {
+  Serial.begin(9600);                     // initialize serial
+  pinMode(DOOR_SENSOR_PIN, INPUT_PULLUP); // set ESP32 pin to input pull-up mode
+  pinMode(RELAY_PIN, OUTPUT);             // set ESP32 pin to output mode
+
+  currentDoorState = digitalRead(DOOR_SENSOR_PIN);
+}
+
+void loop() {
+  lastDoorState    = currentDoorState;             // save the last state
+  currentDoorState = digitalRead(DOOR_SENSOR_PIN); // read new state
+
+  if (lastDoorState == HIGH && currentDoorState == LOW) { // state change: HIGH -> LOW
+    Serial.println("The door-closing event is detected, toggles state of relay");
+
+    // toggle state of relay
+    relayState = !relayState;
+
+    // control relay arccoding to the toggled state
+    digitalWrite(RELAY_PIN, relayState);
+  }
+}

@@ -1,0 +1,22 @@
+#define DOOR_SENSOR_PIN  23  // ESP32 pin GIOP23 connected to the OUTPUT pin of door sensor
+#define LED_PIN          17  // ESP32 pin GIOP17 connected to LED's pin
+
+int doorState;
+
+void setup() {
+  Serial.begin(9600);                     // initialize serial
+  pinMode(DOOR_SENSOR_PIN, INPUT_PULLUP); // set ESP32 pin to input pull-up mode
+  pinMode(LED_PIN, OUTPUT);               // set ESP32 pin to output mode
+}
+
+void loop() {
+  doorState = digitalRead(DOOR_SENSOR_PIN); // read state
+
+  if (doorState == HIGH) {
+    Serial.println("The door is open, turns on LED");
+    digitalWrite(LED_PIN, HIGH); // turn on LED
+  } else {
+    Serial.println("The door is closed, turns off LED");
+    digitalWrite(LED_PIN, LOW);  // turn off LED
+  }
+}
